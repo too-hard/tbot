@@ -7,9 +7,9 @@ import time
 from datetime import datetime, date, time
 
 bot = telebot.TeleBot('6740900511:AAG-C64U3wU18kkV5oSxfsLe2vLoP9oqoIQ')
-button_foo = types.InlineKeyboardButton('Сегодня', callback_data='today')
-button_bar = types.InlineKeyboardButton('Завтра', callback_data='tomorrow')
-button_baz = types.InlineKeyboardButton('Неделя', callback_data='week')
+button_foo = types.InlineKeyboardButton('Сегодня', callback_data='/today')
+button_bar = types.InlineKeyboardButton('Завтра', callback_data='/tomorrow')
+button_baz = types.InlineKeyboardButton('Неделя', callback_data='/week')
 
 keyboard = types.InlineKeyboardMarkup()
 keyboard.add(button_foo)
