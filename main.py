@@ -78,13 +78,13 @@ def get_week_r(week):
 
 @bot.message_handler(commands=['start'])
 def button_message(message):
-  bot.send_message(message.chat.id,'Какое расписание скинуть?',reply_markup=keyboard)
+  bot.send_message(message.chat.id,'Какое расписание скинуть?')#,reply_markup=keyboard)
   
 @bot.message_handler(commands=['today'])
 def today_message(message):
   d = datetime.utcnow().isocalendar()
   repl = get_r(d.week % 2, d.weekday, d.week)
-  bot.send_message(message.chat.id,repl,reply_markup=keyboard)
+  bot.send_message(message.chat.id,repl)#,reply_markup=keyboard)
 
 @bot.message_handler(commands=['tomorrow'])
 def tomorrow_message(message):
@@ -94,13 +94,13 @@ def tomorrow_message(message):
     repl = get_r((d.week+1) % 2, 1, d.week+1)
   else:
     repl = get_r(d.week % 2, d.weekday+1, d.week)
-  bot.send_message(message.chat.id,repl,reply_markup=keyboard)
+  bot.send_message(message.chat.id,repl)#,reply_markup=keyboard)
 
 @bot.message_handler(commands=['week'])
 def week_message(message):
   d = datetime.utcnow().isocalendar()
   repl = get_week_r(d.week)
-  bot.send_message(message.chat.id,repl,reply_markup=keyboard)
+  bot.send_message(message.chat.id,repl)#,reply_markup=keyboard)
 
 #@bot.message_handler(content_types=['text'])
 #def get_text_message(message):
