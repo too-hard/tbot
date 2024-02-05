@@ -6,6 +6,7 @@ import telebot
 from telebot import types
 import time
 from datetime import datetime, date, time
+import pytz
 
 bot = telebot.TeleBot('token')
 button_foo = types.InlineKeyboardButton('Сегодня', callback_data='/today')
@@ -83,23 +84,49 @@ def button_message(message):
   
 @bot.message_handler(commands=['today'])
 def today_message(message):
-  d = datetime.utcnow().isocalendar()
+  d = datetime.now(pytz.timezone('Europe/Moscow')).isocalendar()
   repl = get_r(d.week % 2, d.weekday, d.week)
+  if repl is not None:
+    if d.weekday == 1:
+      repl = "Расписание на понедельник:\n" + repl
+    elif d.weekday == 2:
+      repl = "Расписание на вторник:\n" + repl
+    elif d.weekday == 3:
+      repl = "Расписание на среду:\n" + repl
+    elif d.weekday == 4:
+      repl = "Расписание на четверг:\n" + repl
+    elif d.weekday == 5:
+      repl = "Расписание на пятницу:\n" + repl
+    elif d.weekday == 6:
+      repl = "Расписание на субботу:\n" + repl
   bot.send_message(message.chat.id,repl)#,reply_markup=keyboard)
 
 @bot.message_handler(commands=['tomorrow'])
 def tomorrow_message(message):
-  d = datetime.utcnow().isocalendar()
+  d = datetime.now(pytz.timezone('Europe/Moscow')).isocalendar()
   repl = ""
   if d.weekday == 7:
     repl = get_r((d.week+1) % 2, 1, d.week+1)
+    if repl is not None:
+      repl = "Расписание на понедельник:\n" + repl
   else:
     repl = get_r(d.week % 2, d.weekday+1, d.week)
+    if repl is not None:
+      if d.weekday == 1:
+        repl = "Расписание на вторник:\n" + repl
+      elif d.weekday == 2:
+        repl = "Расписание на среду:\n" + repl
+      elif d.weekday == 3:
+        repl = "Расписание на четверг:\n" + repl
+      elif d.weekday == 4:
+        repl = "Расписание на пятницу:\n" + repl
+      elif d.weekday == 5:
+        repl = "Расписание на субботу:\n" + repl
   bot.send_message(message.chat.id,repl)#,reply_markup=keyboard)
 
 @bot.message_handler(commands=['week'])
 def week_message(message):
-  d = datetime.utcnow().isocalendar()
+  d = datetime.now(pytz.timezone('Europe/Moscow')).isocalendar()
   repl = get_week_r(d.week)
   bot.send_message(message.chat.id,repl)#,reply_markup=keyboard)
 
