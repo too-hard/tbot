@@ -1,4 +1,5 @@
-import os
+import os, sys
+from requests.exceptions import ConnectionError, ReadTimeout
 import pip
 pip.main(['install', 'pytelegrambotapi'])
 import telebot
@@ -109,4 +110,11 @@ def week_message(message):
 #if message.text == "Привет":
 #bot.send_message(message.from_user.id, "Привет, чем я могу тебе помочь?")
 
-bot.polling(non_stop=True, interval=0) #запуск бота
+#bot.polling(non_stop=True, interval=0) #запуск бота
+try:
+    bot.infinity_polling(timeout=10, long_polling_timeout=5)
+except (ConnectionError, ReadTimeout) as e:
+    sys.stdout.flush()
+    os.execv(sys.argv[0], sys.argv)
+else:
+    bot.infinity_polling(timeout=10, long_polling_timeout=5)
